@@ -1,0 +1,9 @@
+replicaCount: 1
+env.TZ: "America/Chicago"
+podLabels:
+  hello: world
+persistence:
+  homarrDatabase:
+    enabled: true
+    storageClassName: local-path
+    size: 1Gi

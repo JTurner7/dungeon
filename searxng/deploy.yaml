@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: searxng
+  name: searxng
+  namespace: dungeon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: searxng
+  template:
+    metadata:
+      labels:
+        app: searxng
+    spec:
+      containers:
+        - image: ghcr.io/searxng/searxng:2026.5.17-f26e45077
+          name: searxng
+          ports:
+            - containerPort: 8888
+          volumeMounts:
+            - name: config-vol
+              mountPath: /etc/searxng
+            - name: data-vol
+              mountPath: /var/cache/searxng
+      volumes:
+        - name: config-vol
+          persistentVolumeClaim:
+            claimName: searxng-config
+        - name: data-vol
+          persistentVolumeClaim:
+            claimName: searxng-cache
+status: {}
